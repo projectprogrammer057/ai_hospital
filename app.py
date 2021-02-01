@@ -4,10 +4,6 @@ from flask import Flask, request, render_template
 import pickle
 
 app = Flask(__name__)
-model = pickle.load(open('model.pkl', 'rb'))
-
-@app.route('/')
-def home():
     return render_template('breast.html')
 
 @app.route('/predict',methods=['POST'])
@@ -27,11 +23,11 @@ def predict():
     
     df = pd.DataFrame(features_value, columns=features_name)
     output = model.predict(df)
-        
     if output == 0:
         res_val = "** breast cancer **"
     else:
         res_val = "no breast cancer"
+        
         
 
     return render_template('breast.html', prediction_text='Patient has {}'.format(res_val))
